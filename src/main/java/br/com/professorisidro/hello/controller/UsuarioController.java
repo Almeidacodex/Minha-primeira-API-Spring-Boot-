@@ -1,6 +1,7 @@
 package br.com.professorisidro.hello.controller;
 
 import br.com.professorisidro.hello.model.Usuario;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class UsuarioController {
 
     @PostMapping("/login")
-    public Usuario login(@RequestBody Usuario dadosLogin){
+    public ResponseEntity<Usuario> login(@RequestBody Usuario dadosLogin){
 
         System.out.println("Recebido " + dadosLogin.getEmail() + "/" + dadosLogin.getSenha());
         if (dadosLogin.getEmail().equals("gabrieldf@gmail.com")){
@@ -21,12 +22,13 @@ public class UsuarioController {
                 resposta.setNome("Gabriel ");
                 resposta.setEmail("gabrieldf@gmail.com");
                 resposta.setSenha("*******");
-                return resposta;
+                // retorno a resposta de codigo 200 ok
+                return ResponseEntity.ok(resposta);
 
             }
-            return null;
+            return ResponseEntity.status(401).build();
         }
-        return null;
+        return  ResponseEntity.notFound().build();//ResponseEntity.status(404).build() ;
 
 
     }
